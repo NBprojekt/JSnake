@@ -1,0 +1,148 @@
+
+<html>
+    <head>
+        <style>
+            body {
+                margin :0px;
+                font-size:1.2em;
+            } 
+            #noscript {
+                font-size: 1.7em;
+                text-align: center;
+                margin-bottom: 100%;
+                margin-top: 20px;
+            }
+            #main {
+                width : 400px;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center; 
+            }
+            #game {
+                width : 400px;
+                height: 400px;
+                margin-top: 10px;
+                margin-bottom: 10px; 
+            }
+        </style>
+        <script>
+            var game, context;
+            var xSpeed, ySpeed;
+            var xPlayer, yPlayer;
+            var xMap, yMap;
+            var xFood, yFood;
+            var path = [], tail;
+            var points, colors;
+            window.onload = function start() {
+                game = document.getElementById( "game" );
+                context = game.getContext( "2d" );
+
+                document.addEventListener( "keydown", keyPushed );
+                setInterval( gameloop, 100);
+                
+                xSpeed = ySpeed = 0;
+                xPlayer = yPlayer = 10;
+                xMap = yMap = 20;
+                xFood = yFood = 15;
+                tail = 5;
+                points = 0;
+                foodColors = ['red', 'orange', 'lime', 'yellow', 'brown'];
+            }
+            
+            function gameloop() {
+                xPlayer += xSpeed;
+                yPlayer += ySpeed;
+                if ( xPlayer < 0 )
+                    xPlayer = xMap -1;
+                if ( xPlayer > xMap -1)
+                    xPlayer = 0;
+                if ( yPlayer < 0 )
+                    yPlayer = yMap -1;
+                if ( yPlayer > yMap -1)
+                    yPlayer = 0;
+                
+                // Background 
+                context.fillStyle = "black";
+                context.fillRect( 0, 0, game.width, game.height );
+                
+                // Player
+                for ( var i = 0 ; i < path.length ; i++ ) {
+                    if ( i == path.length - 1  )    
+                        context.fillStyle = "purple"; // snake head
+                    else                            
+                        context.fillStyle = "darkblue"; // snake body
+                    context.fillRect( path[i].x * xMap, path[i].y * yMap, xMap - 2, yMap - 2 );
+                    // eat itself
+                    if ( path[i].x == xPlayer && path[i].y == yPlayer && tail > 5){
+                        window.location.href = "snake.html";
+                    }
+                }
+                path.push( { x : xPlayer, y : yPlayer } );
+                while ( path.length > tail ) {
+                    path.shift();
+                }
+                
+                // eat food
+                if ( xFood == xPlayer && yFood == yPlayer ) {
+                    tail++;
+                    points++; 
+                    shuffle(foodColors);
+                    document.getElementById('points').innerHTML = points;
+                    xFood = Math.floor( Math.random() * xMap );
+                    yFood = Math.floor( Math.random() * yMap );
+                }
+                
+                // Food
+                context.fillStyle = foodColors[0];
+                context.fillRect( xFood * xMap, yFood * yMap, xMap - 2, yMap - 2 );
+            }
+            function keyPushed(key) {
+                switch ( key.keyCode ) {
+                    case 37:    // arrowkey left
+                        xSpeed = -1;
+                        ySpeed = 0;
+                        break;
+                    case 38:    // arrowkey top
+                        xSpeed = 0;
+                        ySpeed = -1;
+                        break;
+                    case 39:    // arrowkey rights
+                        xSpeed = 1;
+                        ySpeed = 0;
+                        break;
+                    case 40:    // arrowkey bottom
+                        xSpeed = 0;
+                        ySpeed = 1;
+                        break;
+                }
+            } 
+            function shuffle(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex; 
+                while ( 0 !== currentIndex ) { 
+                  randomIndex = Math.floor(Math.random() * currentIndex);
+                  currentIndex -= 1;
+ 
+                  temporaryValue = array[currentIndex];
+                  array[currentIndex] = array[randomIndex];
+                  array[randomIndex] = temporaryValue;
+                }
+
+                return array;
+            }
+        </script>
+        <noscript>
+            <p id="noscript">
+                Serious ? <br>
+                You want to play a JavaScript game without JavaScript???
+            </p>
+        </noscript>
+    </head>
+    <body>
+        <div id="main">
+            <h1>JSnake</h1>
+            <h3>Points : <strong id="points"> 0 </strong></h3>
+            <canvas id="game" width="400" height="400"></canvas> 
+            <h3>Start moving with the arrow keys</h3>
+        </div>
+    </body>
+</html>
