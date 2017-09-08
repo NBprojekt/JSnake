@@ -41,6 +41,7 @@
         points = 0;
         foodColors = ['red', 'orange', 'lime', 'yellow', 'aqua', 'darksalmon'];
 	bodyColors = ['grey', 'ghostwhite'];
+        readCookie();
     }
 
     function gameloop() {
@@ -74,8 +75,9 @@
             }
             context.fillRect( path[i].x * xMap, path[i].y * yMap, xMap - 2, yMap - 2 );
             // eat itself
-            if ( path[i].x == xPlayer && path[i].y == yPlayer && tail > 5){
-               window.location.href = "index.html"; 
+            if ( path[i].x == xPlayer && path[i].y == yPlayer && tail > 5 ) { 
+                createCookie();
+                window.location.href = "index.html"; 
             }
         }
         path.push( { x : xPlayer, y : yPlayer } );
@@ -132,4 +134,31 @@
         }
 
         return array;
+    }
+    
+    function createCookie() {
+        var expires = "";
+        var days = 7;  
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString(); 
+        
+        document.cookie = "coockieHighScore=" + 
+                document.getElementById('points').innerHTML + expires + "; path=/";
+    }
+
+    function readCookie() {
+        var nameEQ = "coockieHighScore=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while ( c.charAt(0)==' ' ) {
+                c = c.substring( 1, c.length );
+            }
+            if ( c.indexOf(nameEQ) == 0 ) {
+                text = c.substring( nameEQ.length,c.length );
+            }
+        }
+        document.getElementById('highScore').innerHTML = text;
+        return null;
     }
