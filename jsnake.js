@@ -143,8 +143,13 @@
         date.setTime(date.getTime() + (days*24*60*60*1000));
         expires = "; expires=" + date.toUTCString(); 
         
-        document.cookie = "coockieHighScore=" + 
+        
+        if ( document.getElementById('points').innerHTML > 
+                document.getElementById('highScore').innerHTML )
+            document.cookie = "coockieHighScore=" + 
                 document.getElementById('points').innerHTML + expires + "; path=/";
+        else 
+            return;
     }
 
     function readCookie() {
