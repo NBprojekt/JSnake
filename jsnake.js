@@ -39,8 +39,7 @@
         xFood = yFood = 15;
         tail = 5;
         points = 0;
-        foodColors = ['red', 'orange', 'lime', 'yellow', 'aqua', 'darksalmon'];
-	bodyColors = ['grey', 'ghostwhite'];
+        foodColors = ['red', 'orange', 'yellow', 'aqua', 'darksalmon', 'grey']; 
         readCookie();
     }
 
@@ -65,14 +64,14 @@
         for ( var i = 0 ; i < path.length ; i++ ) {
             // snake head
             if ( i == path.length - 1  )    
-                context.fillStyle = "purple"; 
-            // snake body
-            else {  
-                if ( j == bodyColors.length )
-                    j = 0;
-                context.fillStyle =  bodyColors[j];
-                j++;
-            }
+                context.fillStyle = "darkgreen"; 
+	    // snake tail
+	    else if ( i == 0 )    
+                context.fillStyle = "lightgreen";  
+            // snake body 
+                context.fillStyle =  "lime"; 
+
+
             context.fillRect( path[i].x * xMap, path[i].y * yMap, xMap - 2, yMap - 2 );
             // eat itself
             if ( path[i].x == xPlayer && path[i].y == yPlayer && tail > 5 ) { 
@@ -144,10 +143,9 @@
         expires = "; expires=" + date.toUTCString(); 
         
         
-        if ( document.getElementById('points').innerHTML > 
-                document.getElementById('highScore').innerHTML )
+        if ( points > document.getElementById('highScore').innerHTML )
             document.cookie = "coockieHighScore=" + 
-                document.getElementById('points').innerHTML + expires + "; path=/";
+                points + expires + "; path=/";
         else 
             return;
     }
