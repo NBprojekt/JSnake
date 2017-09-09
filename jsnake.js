@@ -69,6 +69,7 @@
 	    else if ( i == 0 )    
                 context.fillStyle = "lightgreen";  
             // snake body 
+            else 
                 context.fillStyle =  "lime"; 
 
 
