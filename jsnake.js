@@ -36,10 +36,12 @@
         xSpeed = ySpeed = 0;
         xPlayer = yPlayer = 10;
         xMap = yMap = 20;
-        xFood = yFood = 15;
+        xFood = Math.floor( Math.random() * xMap );
+        yFood = Math.floor( Math.random() * yMap );
         tail = 5;
         points = 0;
         foodColors = ['red', 'orange', 'yellow', 'aqua', 'darksalmon', 'grey']; 
+	shuffle(foodColors);
         readCookie();
     }
 
