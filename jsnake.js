@@ -104,6 +104,10 @@
     
     function keyPushed(key) {
         switch ( key.keyCode ) {
+            case 27:	// esc
+		xSpeed = 0;
+		ySpeed = 0;
+		break;
             case 37:    // arrowkey left
                 xSpeed = -1;
                 ySpeed = 0;
