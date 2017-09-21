@@ -22,7 +22,7 @@
     var xMap, yMap;
     var xFood, yFood;
     var path = [], tail;
-    var points, foodColors, bodyColors;
+    var points, foodColors, bodyColor;
     var currentIndex, temporaryValue, randomIndex;
     
     
@@ -40,7 +40,8 @@
         yFood = Math.floor( Math.random() * yMap );
         tail = 5;
         points = 0;
-        foodColors = ['red', 'orange', 'yellow', 'aqua', 'darksalmon', 'grey']; 
+        foodColors = ['red', 'orange', 'yellow', 'aqua', 'darksalmon', 'grey'];
+	bodyColor = "lime"; 
 	shuffle(foodColors);
         readCookie();
     }
@@ -66,13 +67,10 @@
         for ( var i = 0 ; i < path.length ; i++ ) {
             // snake head
             if ( i == path.length - 1  )    
-                context.fillStyle = "darkgreen"; 
-	    // snake tail
+                context.fillStyle = "white"; 
+	    // snake body
 	    else if ( i == 0 )    
-                context.fillStyle = "lightgreen";  
-            // snake body 
-            else 
-                context.fillStyle =  "lime"; 
+                context.fillStyle = bodyColor;   
 
 
             context.fillRect( path[i].x * xMap, path[i].y * yMap, xMap - 2, yMap - 2 );
@@ -140,6 +138,10 @@
         }
 
         return array;
+    }
+
+    function setBodyColor( box ) {
+	bodyColor = box.options[ box.selectedIndex ].value; 
     }
     
     function createCookie() {
