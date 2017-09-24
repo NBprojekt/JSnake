@@ -7,6 +7,7 @@
 ![License](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)
 
 A simpe snake version in javascript. 
+
 The recommended browser is [mozilla firefox](https://www.mozilla.org/en-US/),
 shoult still work in other browsers. 
 
